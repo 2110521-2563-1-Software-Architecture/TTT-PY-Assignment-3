@@ -6,7 +6,6 @@ from mvc.views.base_view import BaseView
 
 
 class MainView(BaseView):
-
     def __init__(self, controller: MainController):
         BaseView.__init__(self, "MVC Note Application")
         self.controller = controller
@@ -43,21 +42,25 @@ class MainView(BaseView):
         self.update_view(self.controller.get_all_notes())
 
     def update_view(self, items: List[Note]):
-        self.note_list_label.SetLabel(
-            "Note List:\n" + "\n".join([f"{i + 1}. {note.content}" for i, note in enumerate(items)]))
+        self.note_list_label.SetLabel("Note List:\n" + "\n".join(
+            [f"{i + 1}. {note.content}" for i, note in enumerate(items)]))
 
     def on_clear_all_button_clicked(self, e):
         # Clear all note
         # Your code here
+        self.controller.clear_all()
         # Update view
         # Your code here
-        pass
+        self.update_view(self.controller.get_all_notes())
+        return
 
     def on_add_note_button_clicked(self, e):
         content = self.note_input.GetValue()
         self.note_input.SetValue("")
         # Add new note
         # Your code here
+        self.controller.add_note(content)
         # Update view
         # Your code here
-        pass
+        self.update_view(self.controller.get_all_notes())
+        return
